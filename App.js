@@ -8,12 +8,15 @@
 */
 
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { Images, Colors } from './App/Themes'
-import APIRequest from './App/Config/APIRequest'
+import { StyleSheet, View, SafeAreaView, Image, ActivityIndicator } from 'react-native';
+import {Styles} from './App/styles';
+import APIRequest from './App/Config/APIRequest';
 
 import News from './App/Components/News'
 import Search from './App/Components/Search'
+import colors from "./App/Themes/Colors";
+
+let self = '';
 
 export default class App extends React.Component {
 
@@ -22,12 +25,11 @@ export default class App extends React.Component {
     articles : [],
     searchText: '',
     category: ''
-  }
+  };
 
   componentDidMount() {
-
-    //uncomment this to run an API query!
-    //this.loadArticles();
+    self = this;
+    this.loadArticles();
   }
 
   async loadArticles(searchTerm = '', category = '') {
@@ -38,29 +40,24 @@ export default class App extends React.Component {
     } else {
       resultArticles = await APIRequest.requestCategoryPosts(category);
     }
-    console.log(resultArticles);
     this.setState({loading: false, articles: resultArticles})
+  }
+
+  filterArticles(searchString) {
+    self.loadArticles(searchString);
   }
 
   render() {
     const {articles, loading} = this.state;
 
     return (
-      <SafeAreaView style={styles.container}>
-
-        <Text style={{textAlign: 'center'}}>Have fun! :) {"\n"} Start by changing the API Key in "./App/Config/AppConfig.js" {"\n"} Then, take a look at the following components: {"\n"} NavigationButtons {"\n"} Search {"\n"} News {"\n"} 🔥</Text>
-
-        {/*First, you'll need a logo*/}
-
-        {/*Then your search bar*/}
-
-        {/*And some news*/}
-
-        {/*Though, you can style and organize these however you want! power to you 😎*/}
-
-        {/*If you want to return custom stuff from the NYT API, checkout the APIRequest file!*/}
-
-      </SafeAreaView>
+        <SafeAreaView style={styles.container}>
+          <View style={Styles.logoContainer}>
+            <Image style={Styles.logo} source={require('./App/Images/nyt.png')} resizeMode={'cover'}/>
+          </View>
+          <Search filterSearch={this.filterArticles}/>
+          { loading ? <ActivityIndicator style={{flex: 1}} size={'large'} color={colors.fire}/> : <News articles={articles}/>}
+        </SafeAreaView>
     );
   }
 }
@@ -69,7 +66,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center'
+    marginLeft: 5,
+    marginRight: 5,
   }
 });
