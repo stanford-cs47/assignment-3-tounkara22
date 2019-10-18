@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
 import colors from './Themes/Colors';
+import { Dimensions } from 'react-native';
+
+const {height, width} = Dimensions.get('window');
 
 export const Styles = StyleSheet.create({
     logoContainer: {
@@ -8,7 +11,7 @@ export const Styles = StyleSheet.create({
     },
     logo: {
         width: '100%',
-        height: 40
+        height: height * .1
     },
     searchContainer: {
         flexDirection: 'row',
@@ -23,7 +26,6 @@ export const Styles = StyleSheet.create({
         paddingRight: 20,
     },
     searchIcon: {
-        // backgroundColor: '#f4f4f4',
         color: colors.fire,
         alignSelf: 'center',
         margin: 10,
@@ -31,6 +33,6 @@ export const Styles = StyleSheet.create({
     newsContentContainer: {
         marginTop: 10,
         marginBottom: 10,
-        padding: 10
     },
+    author: {fontWeight: 'bold', fontSize: 10}
 });

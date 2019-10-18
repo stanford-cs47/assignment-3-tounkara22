@@ -7,12 +7,13 @@
 * Oct, 2018
 */
 
-import React, { Component } from 'react'
-import PropTypes from 'prop-types' //consider using this!
-import { StyleSheet, SafeAreaView, View, FlatList, Text, Linking } from 'react-native'
-import { material } from 'react-native-typography' //consider using this!
-import { Metrics, Colors } from '../Themes'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types' //consider using this!;
+import { StyleSheet, SafeAreaView, View, FlatList, Text, Linking, TouchableOpacity } from 'react-native';
 import {NewsContent} from "./NewsContent";
+
+import { SwipeListView } from 'react-native-swipe-list-view';
+
 
 export default class News extends Component {
   static defaultProps = { articles: [] }
@@ -33,12 +34,23 @@ export default class News extends Component {
   }
 
   render () {
-    // const {articles} = this.props;
-
     return (
         <View style={styles.container}>
           <FlatList data={this.getArticles()}
-                    renderItem={({item}) => <NewsContent news={item}/>}
+                    renderItem={({item}) => (
+                        <TouchableOpacity onPress={() => {
+                          Linking.canOpenURL(item.url).then(supported => {
+                            if (supported) {
+                              Linking.openURL(item.url);
+                            } else {
+                              alert('could not open link: ' + item.url + ', with the browser');
+                            }
+                          })
+                        }}>
+                          <NewsContent news={item} />
+                        </TouchableOpacity>
+                    )}
+                    style={{padding: 5}}
                     keyExtractor={item => item.date + item.byline}/>
         </View>
     );
@@ -49,8 +61,7 @@ export default class News extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 5,
-    // borderWidth: 1,
+    // margin: 5,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center'

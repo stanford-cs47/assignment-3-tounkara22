@@ -53,7 +53,7 @@ export default class App extends React.Component {
     return (
         <SafeAreaView style={styles.container}>
           <View style={Styles.logoContainer}>
-            <Image style={Styles.logo} source={require('./App/Images/nyt.png')} resizeMode={'cover'}/>
+            <Image style={Styles.logo} source={require('./App/Images/nyt.png')} resizeMode={'center'}/>
           </View>
           <Search filterSearch={this.filterArticles}/>
           { loading ? <ActivityIndicator style={{flex: 1}} size={'large'} color={colors.fire}/> : <News articles={articles}/>}
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: '5%',
+    marginRight: '5%',
   }
 });

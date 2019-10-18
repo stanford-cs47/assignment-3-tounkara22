@@ -8,11 +8,10 @@
 */
 
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types'; //consider using this!
-import { View, TextInput, TouchableOpacity, Text, Keyboard } from 'react-native';
+import { View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { Metrics, Colors } from '../Themes';
 import {Styles} from '../styles';
+import Metrics from '../Themes/Metrics';
 
 
 export default class Search extends Component {
@@ -35,7 +34,9 @@ export default class Search extends Component {
                      onChangeText={text => this.setState({text})}
                      value={this.state.text}
                      style={Styles.searchField}/>
-          <FontAwesome name={'search'} size={30} style={Styles.searchIcon} onPress={this.searchNews}/>
+          <TouchableOpacity onPress={this.searchNews}>
+              <FontAwesome name={'search'} size={Metrics.icons.medium} style={Styles.searchIcon}/>
+          </TouchableOpacity>
         </View>
     );
   }
